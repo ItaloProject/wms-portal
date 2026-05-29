@@ -5,6 +5,8 @@ export function initHeroLogo() {
   const stage = document.querySelector('.hero-logo-stage');
   const hero = document.getElementById('hero');
   const reveal = stage?.querySelector('.hero-logo-reveal');
+  const fx = stage?.querySelector('.hero-logo-fx');
+  const glow = stage?.querySelector('.hero-logo-glow');
   if (!stage || !hero) return;
 
   const richMotion = canUseRichMotion();
@@ -34,7 +36,13 @@ export function initHeroLogo() {
     if (Math.abs(progress - lastProgress) < 0.01) return;
     lastProgress = progress;
 
-    stage.style.setProperty('--logo-progress', progress.toFixed(3));
+    // Updates diretos em vez de CSS variable inheritance — evita recalc em cascade
+    if (reveal) {
+      reveal.style.opacity = progress.toFixed(3);
+      reveal.style.transform = `scale(${(0.88 + progress * 0.12).toFixed(4)})`;
+    }
+    if (fx) fx.style.opacity = (progress * 0.95).toFixed(3);
+    if (glow) glow.style.opacity = (progress * 0.7).toFixed(3);
     reveal?.classList.toggle('is-alive', progress >= 0.45);
   };
 

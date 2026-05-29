@@ -6,8 +6,7 @@ import { initTeamGallery } from './lib/team-gallery.js';
 import { initSmoothScroll, initLoader, initHeroAnimations, initScrollAnimations } from './effects/scroll.js';
 import { initHeroCharReveal } from './lib/char-split.js';
 import { initTestimonialSlider } from './lib/testimonial-slider.js';
-import { initAmbientGlow } from './lib/ambient-glow.js';
-import { initHeroMesh } from './lib/hero-mesh.js';
+import { initHeroEffects } from './lib/hero-effects.js';
 import { initLocalParallax } from './lib/brand-polish.js';
 
 applyPerfClass();
@@ -17,8 +16,7 @@ initLoader(() => {
   initHeroCharReveal();
   initHeroAnimations();
   initHeroLogo();
-  initHeroMesh();
-  initAmbientGlow();
+  initHeroEffects();
   initTeamGallery();
   initTestimonialSlider();
   initScrollAnimations();

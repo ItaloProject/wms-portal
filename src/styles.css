@@ -239,9 +239,8 @@ html[data-perf="lite"] .ambient-glow {
   inset: 0;
   z-index: 9998;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.045;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode: soft-light;
 }
 
 html.perf-lite .brand-grain {
@@ -301,7 +300,6 @@ em, .italic {
 }
 
 .cursor-layer-arrow {
-  transition: transform 0.07s linear;
   z-index: 2;
 }
 
@@ -785,6 +783,7 @@ body.nav-open {
   inset: 0;
   z-index: 0;
   overflow: hidden;
+  contain: paint;
 }
 
 .hero::before {
@@ -934,7 +933,9 @@ body.is-ready .hero-scan {
   .hero-mesh { display: none; }
 }
 
-html.perf-lite .hero-mesh {
+html.perf-lite .hero-mesh,
+html[data-perf="medium"] .hero-mesh,
+html[data-perf="lite"] .hero-mesh {
   display: none;
 }
 
