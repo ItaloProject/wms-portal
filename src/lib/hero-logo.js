@@ -7,26 +7,26 @@ export function initHeroLogo() {
   const reveal = stage?.querySelector('.hero-logo-reveal');
   if (!stage || !hero) return;
 
-  let heroVisible = true;
   const richMotion = canUseRichMotion();
 
   const update = () => {
-    if (!heroVisible) return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const scrollFactor = isMobile ? 0.75 : 0.55;
+    const scrollSpan = Math.max(hero.offsetHeight * scrollFactor, 1);
     const rect = hero.getBoundingClientRect();
-    const scrollSpan = Math.max(hero.offsetHeight * 0.5, 1);
-    const progress = Math.min(1, Math.max(0, -rect.top / scrollSpan));
+    const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
+    const scrolled = Math.max(0, window.scrollY - hero.offsetTop + navOffset * 0.35);
+    const rectProgress = Math.max(0, -rect.top / scrollSpan);
+    const scrollProgress = scrolled / scrollSpan;
+    const progress = Math.min(1, Math.max(rectProgress, scrollProgress));
+
     stage.style.setProperty('--logo-progress', progress.toFixed(3));
-    reveal?.classList.toggle('is-alive', progress >= 0.72);
+    reveal?.classList.toggle('is-alive', progress >= 0.45);
   };
 
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      heroVisible = entry.isIntersecting;
-      if (heroVisible) update();
-    }, { threshold: 0 }).observe(hero);
-  }
-
   onScroll(update);
+  window.addEventListener('resize', update, { passive: true });
+  window.addEventListener('load', update, { once: true });
 
   if (richMotion) {
     let parallaxFrame = 0;
