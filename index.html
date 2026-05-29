@@ -690,40 +690,55 @@
         <h2 class="section-title reveal-up">O que dizem <em>sobre nós</em></h2>
       </div>
 
-      <div class="testimonials">
-        <article class="testimonial-card tilt-card" data-tilt>
-          <div class="quote-mark">"</div>
-          <p>A WMS cuida de toda nossa contabilidade há anos. Nunca tivemos problemas com fiscalização e sempre recebemos orientação clara sobre impostos.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar"></div>
-            <div>
-              <strong>Carlos Eduardo</strong>
-              <span>Sócio, MetalCorp Indústria</span>
-            </div>
+      <div class="testimonials-stage">
+        <button class="testimonials-arrow testimonials-arrow--prev" aria-label="Depoimento anterior" disabled>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M13 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="testimonials-viewport">
+          <div class="testimonials-track">
+            <article class="testimonial-card" role="group" aria-label="Depoimento 1 de 3">
+              <div class="quote-mark">"</div>
+              <p>A WMS cuida de toda nossa contabilidade há anos. Nunca tivemos problemas com fiscalização e sempre recebemos orientação clara sobre impostos.</p>
+              <div class="testimonial-author">
+                <div class="author-avatar"></div>
+                <div>
+                  <strong>Carlos Eduardo</strong>
+                  <span>Sócio, MetalCorp Indústria</span>
+                </div>
+              </div>
+            </article>
+            <article class="testimonial-card" role="group" aria-label="Depoimento 2 de 3">
+              <div class="quote-mark">"</div>
+              <p>Abriram minha empresa, cuidam da folha e dos impostos. Posso focar no negócio sabendo que a parte contábil está em boas mãos.</p>
+              <div class="testimonial-author">
+                <div class="author-avatar"></div>
+                <div>
+                  <strong>Fernanda Lima</strong>
+                  <span>Proprietária, AgroMax Comércio</span>
+                </div>
+              </div>
+            </article>
+            <article class="testimonial-card" role="group" aria-label="Depoimento 3 de 3">
+              <div class="quote-mark">"</div>
+              <p>O planejamento tributário que fizeram reduziu significativamente nossa carga fiscal. Equipe atenciosa e sempre disponível.</p>
+              <div class="testimonial-author">
+                <div class="author-avatar"></div>
+                <div>
+                  <strong>Roberto Silva</strong>
+                  <span>Diretor, Silva & Associados</span>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
-        <article class="testimonial-card tilt-card" data-tilt>
-          <div class="quote-mark">"</div>
-          <p>Abriram minha empresa, cuidam da folha e dos impostos. Posso focar no negócio sabendo que a parte contábil está em boas mãos.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar"></div>
-            <div>
-              <strong>Fernanda Lima</strong>
-              <span>Proprietária, AgroMax Comércio</span>
-            </div>
-          </div>
-        </article>
-        <article class="testimonial-card tilt-card" data-tilt>
-          <div class="quote-mark">"</div>
-          <p>O planejamento tributário que fizeram reduziu significativamente nossa carga fiscal. Equipe atenciosa e sempre disponível.</p>
-          <div class="testimonial-author">
-            <div class="author-avatar"></div>
-            <div>
-              <strong>Roberto Silva</strong>
-              <span>Diretor, Silva & Associados</span>
-            </div>
-          </div>
-        </article>
+        </div>
+        <button class="testimonials-arrow testimonials-arrow--next" aria-label="Próximo depoimento">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="testimonials-dots" role="group" aria-label="Navegar depoimentos">
+        <button class="testimonials-dot is-active" aria-label="Depoimento 1" aria-selected="true"></button>
+        <button class="testimonials-dot" aria-label="Depoimento 2" aria-selected="false"></button>
+        <button class="testimonials-dot" aria-label="Depoimento 3" aria-selected="false"></button>
       </div>
     </section>
 
