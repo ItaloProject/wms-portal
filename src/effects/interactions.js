@@ -64,6 +64,7 @@ export function initCursor() {
 
 export function initMagneticButtons() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
 
   document.querySelectorAll('.magnetic-btn:not(.floating-cta)').forEach((btn) => {
     const strength = Number.parseFloat(btn.dataset.strength || '0.22');

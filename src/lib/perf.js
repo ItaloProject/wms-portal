@@ -1,7 +1,7 @@
 export function getPerfTier() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 'minimal';
-  if (window.matchMedia('(max-width: 768px)').matches) return 'minimal';
   if (navigator.connection?.saveData) return 'minimal';
+  if (window.matchMedia('(max-width: 768px)').matches) return 'mobile';
 
   const cores = navigator.hardwareConcurrency ?? 4;
   const memory = navigator.deviceMemory ?? 4;
@@ -14,7 +14,7 @@ export function getPerfTier() {
 export function applyPerfClass() {
   const tier = getPerfTier();
   document.documentElement.dataset.perf = tier;
-  if (tier !== 'high') document.documentElement.classList.add('perf-lite');
+  if (tier === 'minimal') document.documentElement.classList.add('perf-lite');
   return tier;
 }
 
@@ -25,6 +25,7 @@ export function canUseRichMotion(tier = getPerfTier()) {
 export function canUseCustomCursor() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
   if (window.matchMedia('(max-width: 768px)').matches) return false;
+  if (window.matchMedia('(pointer: coarse)').matches) return false;
   if (navigator.connection?.saveData) return false;
-  return getPerfTier() !== 'minimal';
+  return getPerfTier() === 'high';
 }

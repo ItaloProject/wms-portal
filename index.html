@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="WMS Gerenciamento — contabilidade estratégica, fiscal e folha para empresas que querem crescer com clareza e conformidade.">
   <meta name="theme-color" content="#030810">
   <meta property="og:title" content="WMS Gerenciamento — Contabilidade">
@@ -14,12 +14,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script>
     (function () {
-      var lite = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        || window.matchMedia('(max-width: 768px)').matches
-        || (navigator.hardwareConcurrency || 4) < 6;
-      if (lite) document.documentElement.classList.add('perf-lite');
+      var html = document.documentElement;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        html.classList.add('perf-lite');
+      }
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        html.dataset.perf = 'mobile';
+      }
     })();
   </script>
+  <style>
+    @media (max-width: 768px) {
+      html, body { overflow-x: hidden !important; width: 100% !important; max-width: 100% !important; }
+      main, .section, .hero, .hero-content, .section-header,
+      .bento-grid, .services-stack, .local-grid, .testimonials,
+      .diagnostico-panel, .equipe-stage, .inovacao-inner {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+    }
+  </style>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 </head>
 <body>

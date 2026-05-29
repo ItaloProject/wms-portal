@@ -51,10 +51,13 @@ html {
   font-size: 16px;
   scroll-behavior: auto;
   overflow-x: hidden;
+  width: 100%;
 }
 
 html, body {
   overflow-y: visible;
+  max-width: 100%;
+  width: 100%;
 }
 
 html.lenis, html.lenis body {
@@ -70,7 +73,8 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: var(--leading-body);
-  overflow: visible;
+  overflow-x: hidden;
+  width: 100%;
   cursor: auto;
   -webkit-font-smoothing: auto;
   text-rendering: auto;
@@ -530,6 +534,9 @@ html.perf-lite .hero-logo-stage {
 main {
   position: relative;
   z-index: 1;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 .nav {
@@ -703,7 +710,15 @@ body.nav-open {
   display: flex;
   align-items: flex-start;
   padding: calc(var(--nav-height) + clamp(28px, 5vh, 64px)) clamp(24px, 5vw, 80px) 80px;
-  overflow: visible;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .hero::before {
@@ -730,12 +745,6 @@ body.nav-open {
   z-index: 0;
 }
 
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
 .hero-orb {
   position: absolute;
   border-radius: 50%;
@@ -743,7 +752,8 @@ body.nav-open {
   pointer-events: none;
 }
 
-html:not(.perf-lite)[data-perf="high"] .hero-orb {
+html:not(.perf-lite)[data-perf="high"] .hero-orb,
+html[data-perf="mobile"] .hero-orb {
   animation: orbFloat 40s ease-in-out infinite;
 }
 
@@ -1174,6 +1184,8 @@ body.is-ready .hero-title .word::after {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   overflow: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 .marquee {
@@ -1247,7 +1259,10 @@ body.is-ready .hero-title .word::after {
 .section {
   padding: var(--section-padding) clamp(24px, 5vw, 80px);
   position: relative;
-  overflow: visible;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .marquee-section,
@@ -1325,7 +1340,9 @@ body.is-ready .hero-title .word::after {
   grid-template-rows: auto auto;
   gap: 20px;
   max-width: var(--container);
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .bento-card {
@@ -1841,12 +1858,22 @@ body.is-ready .hero-title .word::after {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: hidden;
   border-radius: 32px;
   border: 1px solid var(--border);
   background: rgba(10, 18, 32, 0.55);
   padding: clamp(48px, 8vw, 96px) 24px;
   isolation: isolate;
+}
+
+.inovacao-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .inovacao-inner::before {
@@ -1864,14 +1891,6 @@ body.is-ready .hero-title .word::after {
   transform: rotate(0deg) scale(1);
 }
 
-.inovacao-bg {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .inovacao-ring {
   position: absolute;
   border: 1px solid var(--border);
@@ -1879,11 +1898,13 @@ body.is-ready .hero-title .word::after {
   opacity: 0.22;
 }
 
-html:not(.perf-lite)[data-perf="high"] .inovacao-ring-1 {
+html:not(.perf-lite)[data-perf="high"] .inovacao-ring-1,
+html[data-perf="mobile"] .inovacao-ring-1 {
   animation: orbitSpin 24s linear infinite;
 }
 
-html:not(.perf-lite)[data-perf="high"] .inovacao-ring-2 {
+html:not(.perf-lite)[data-perf="high"] .inovacao-ring-2,
+html[data-perf="mobile"] .inovacao-ring-2 {
   animation: orbitSpin 16s linear infinite reverse;
 }
 
@@ -2164,6 +2185,7 @@ html:not(.perf-lite)[data-perf="high"] .inovacao-ring-2 {
 .equipe-track-wrap {
   position: relative;
   overflow: hidden;
+  max-width: 100%;
 }
 
 .equipe-track-wrap--main {
@@ -3042,11 +3064,6 @@ html:not([data-perf="high"]) body::before {
     var(--bg);
 }
 
-.section:not(#hero) {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 640px;
-}
-
 .marquee-section:not(.in-view) .marquee-track,
 .cta-section:not(.in-view) .cta-gradient,
 .equipe-section:not(.in-view) .equipe-track--main,
@@ -3098,6 +3115,20 @@ html[data-perf="lite"] .revealed {
 html[data-perf="medium"] .floating-cta,
 html[data-perf="lite"] .floating-cta {
   animation: none;
+}
+
+/* Mobile: efeitos visuais ativos, só reduz o mais pesado */
+html[data-perf="mobile"] .equipe-glow {
+  filter: blur(48px);
+  opacity: 0.32;
+}
+
+html[data-perf="mobile"] .equipe-slide-frame img {
+  animation-duration: 24s;
+}
+
+html[data-perf="mobile"] .hero-orb {
+  animation-duration: 50s;
 }
 
 /* ---- Responsive ---- */
@@ -3254,7 +3285,72 @@ html[data-perf="lite"] .floating-cta {
   :root {
     --nav-height: 64px;
     --section-padding: clamp(56px, 14vw, 88px);
-    --container: min(1280px, calc(100vw - 32px));
+    --container: min(1280px, 100%);
+  }
+
+  .section,
+  .marquee-section,
+  .equipe-section,
+  .inovacao,
+  .trust-strip {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .section-header,
+  .hero-content,
+  .bento-grid,
+  .services-stack,
+  .local-grid,
+  .testimonials,
+  .diagnostico-panel,
+  .equipe-showcase,
+  .inovacao-inner {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-content {
+    width: 100%;
+  }
+
+  .section {
+    padding-inline: 16px;
+  }
+
+  .hero-orb-1 {
+    width: min(280px, 72vw);
+    right: -12%;
+    top: -100px;
+  }
+
+  .hero-orb-2 {
+    width: min(220px, 58vw);
+    left: -48px;
+    bottom: -40px;
+  }
+
+  .equipe-stage {
+    perspective: none;
+  }
+
+  .equipe-showcase,
+  .equipe-track-wrap {
+    max-width: 100%;
+  }
+
+  .service-info,
+  .bento-content,
+  .hero-content,
+  .local-info,
+  .diagnostico-copy {
+    min-width: 0;
+  }
+
+  .local-grid {
+    grid-template-columns: 1fr;
   }
 
   body {
@@ -3379,7 +3475,8 @@ html[data-perf="lite"] .floating-cta {
   }
 
   .hero-title {
-    font-size: clamp(2.35rem, 11vw, 3.5rem);
+    font-size: clamp(2.5rem, 12vw, 3.75rem);
+    letter-spacing: -0.04em;
   }
 
   .title-line {
@@ -3533,18 +3630,18 @@ html[data-perf="lite"] .floating-cta {
   }
 
   .inovacao-ring-1 {
-    width: 180px;
-    height: 180px;
+    width: min(160px, 44vw);
+    height: min(160px, 44vw);
   }
 
   .inovacao-ring-2 {
-    width: 280px;
-    height: 280px;
+    width: min(240px, 68vw);
+    height: min(240px, 68vw);
   }
 
   .inovacao-ring-3 {
-    width: 360px;
-    height: 360px;
+    width: min(300px, 84vw);
+    height: min(300px, 84vw);
   }
 
   .inovacao-progress {
