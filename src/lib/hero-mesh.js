@@ -5,22 +5,36 @@ export function initHeroMesh() {
 
   if (window.matchMedia('(pointer: coarse)').matches) return;
 
-  // Deslocamento máximo em px por blob (velocidades diferentes = profundidade)
   const SPEEDS = [52, 34, 76, 28];
+  const LERP = 0.055;
+  const state = Array.from(blobs, () => ({ cx: 0, cy: 0, tx: 0, ty: 0 }));
+  let frame = 0;
+  let running = false;
+
+  const tick = () => {
+    let active = false;
+    state.forEach((s, i) => {
+      s.cx += (s.tx - s.cx) * LERP;
+      s.cy += (s.ty - s.cy) * LERP;
+      blobs[i].style.transform = `translate3d(${s.cx.toFixed(1)}px,${s.cy.toFixed(1)}px,0)`;
+      if (Math.abs(s.tx - s.cx) > 0.08 || Math.abs(s.ty - s.cy) > 0.08) active = true;
+    });
+    frame = active ? requestAnimationFrame(tick) : 0;
+    if (!active) running = false;
+  };
+
+  const start = () => { if (!running) { running = true; frame = requestAnimationFrame(tick); } };
 
   hero.addEventListener('mousemove', (e) => {
-    const rect = hero.getBoundingClientRect();
-    const tx = (e.clientX - rect.left - rect.width / 2) / rect.width;
-    const ty = (e.clientY - rect.top - rect.height / 2) / rect.height;
-
-    blobs.forEach((blob, i) => {
-      const x = (tx * SPEEDS[i]).toFixed(1);
-      const y = (ty * SPEEDS[i]).toFixed(1);
-      blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    });
+    const r = hero.getBoundingClientRect();
+    const nx = (e.clientX - r.left - r.width / 2) / r.width;
+    const ny = (e.clientY - r.top - r.height / 2) / r.height;
+    state.forEach((s, i) => { s.tx = nx * SPEEDS[i]; s.ty = ny * SPEEDS[i]; });
+    start();
   }, { passive: true });
 
   hero.addEventListener('mouseleave', () => {
-    blobs.forEach((blob) => { blob.style.transform = 'translate3d(0,0,0)'; });
+    state.forEach(s => { s.tx = 0; s.ty = 0; });
+    start();
   });
 }

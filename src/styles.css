@@ -201,7 +201,7 @@ body::after {
   );
   transform: translate3d(-50%, -50%, 0);
   opacity: 0;
-  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.4s ease;
+  transition: opacity 1.4s ease;
 }
 
 .ambient-glow.is-active {
@@ -892,7 +892,6 @@ body.is-ready .hero-scan {
   position: absolute;
   border-radius: 50%;
   will-change: transform;
-  transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mesh-blob-1 {
@@ -901,8 +900,7 @@ body.is-ready .hero-scan {
   top: 2%;
   left: 52%;
   background: radial-gradient(circle, rgba(0, 85, 170, 0.52) 0%, transparent 68%);
-  filter: blur(52px);
-  transition-duration: 2.2s;
+  filter: blur(28px);
 }
 
 .mesh-blob-2 {
@@ -911,8 +909,7 @@ body.is-ready .hero-scan {
   top: 52%;
   left: 70%;
   background: radial-gradient(circle, rgba(122, 201, 67, 0.44) 0%, transparent 68%);
-  filter: blur(42px);
-  transition-duration: 1.8s;
+  filter: blur(20px);
 }
 
 .mesh-blob-3 {
@@ -921,8 +918,7 @@ body.is-ready .hero-scan {
   top: 16%;
   left: 82%;
   background: radial-gradient(circle, rgba(55, 160, 255, 0.50) 0%, transparent 65%);
-  filter: blur(34px);
-  transition-duration: 2.6s;
+  filter: blur(18px);
 }
 
 .mesh-blob-4 {
@@ -931,8 +927,7 @@ body.is-ready .hero-scan {
   top: 38%;
   left: 48%;
   background: radial-gradient(circle, rgba(0, 40, 120, 0.32) 0%, transparent 65%);
-  filter: blur(60px);
-  transition-duration: 3s;
+  filter: blur(32px);
 }
 
 @media (max-width: 768px) {
