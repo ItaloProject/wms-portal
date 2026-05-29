@@ -783,7 +783,6 @@ body.nav-open {
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  contain: paint;
 }
 
 .hero::before {
@@ -3452,6 +3451,15 @@ html:not([data-perf="high"]) .nav.scrolled {
 .cta-section:not(.in-view) .btn-shine,
 .diagnostico-section:not(.in-view) .btn-shine {
   animation-play-state: paused;
+}
+
+/* Fallback: garante que conteudo do CTA aparece quando a secao esta visivel */
+.cta-section.in-view .cta-title,
+.cta-section.in-view .cta-sub,
+.cta-section.in-view .cta-form {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
 }
 
 html[data-perf="medium"] .equipe-slide-frame img,

@@ -8,12 +8,12 @@ export function initRevealObserver(selectors = '.reveal-up, .reveal-left, .bento
       entry.target.classList.add('revealed', 'visible');
       observer.unobserve(entry.target);
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  }, { threshold: 0.08 });
 
   nodes.forEach((node) => observer.observe(node));
 }
 
-export function initSectionObserver(selector, className = 'in-view') {
+export function initSectionObserver(selector, className = 'in-view', threshold = 0.35) {
   const sections = document.querySelectorAll(selector);
   if (!sections.length) return;
 
@@ -21,7 +21,7 @@ export function initSectionObserver(selector, className = 'in-view') {
     entries.forEach((entry) => {
       entry.target.classList.toggle(className, entry.isIntersecting);
     });
-  }, { threshold: 0.35 });
+  }, { threshold });
 
   sections.forEach((section) => observer.observe(section));
 }

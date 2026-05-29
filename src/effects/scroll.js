@@ -98,8 +98,8 @@ export function initScrollAnimations() {
   initSectionObserver('.services-stack', 'in-view');
   initSectionObserver('.journey', 'in-view');
   initSectionObserver('.marquee-section', 'in-view');
-  initSectionObserver('.cta-section', 'in-view');
-  initSectionObserver('.diagnostico-section', 'in-view');
+  initSectionObserver('.cta-section', 'in-view', 0.12);
+  initSectionObserver('.diagnostico-section', 'in-view', 0.12);
   initSectionObserver('#hero', 'in-view');
   initSectionObserver('#sobre', 'in-view');
 }
