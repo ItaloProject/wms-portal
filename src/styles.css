@@ -1500,11 +1500,11 @@ html.perf-lite .hero-title .char {
   margin-bottom: 16px;
   clip-path: inset(0 100% 0 0);
   opacity: 1;
+  transition: clip-path 0.9s var(--ease-out-expo);
 }
 
 .section-tag.revealed {
   clip-path: inset(0 0% 0 0);
-  transition: clip-path 0.9s var(--ease-out-expo), opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
 }
 
 .section-title {
@@ -1515,13 +1515,6 @@ html.perf-lite .hero-title .char {
   letter-spacing: -0.03em;
   padding-block-end: 0.14em;
   overflow: visible;
-  clip-path: inset(0 0 110% 0);
-  opacity: 1;
-}
-
-.section-title.revealed {
-  clip-path: inset(0 0 0% 0);
-  transition: clip-path 1s var(--ease-out-expo), opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
 }
 
 .section-title::after {
@@ -3340,9 +3333,8 @@ html.perf-lite .floating-cta {
 
 .reveal-left { transform: translateX(-40px); }
 
-/* Section-tag e section-title usam clip-path reveal — reset opacity/transform */
-.section-tag.reveal-left,
-.section-title {
+/* Section-tag usa clip-path reveal — reset opacity/transform herdados do reveal-left */
+.section-tag.reveal-left {
   opacity: 1;
   transform: none;
 }
