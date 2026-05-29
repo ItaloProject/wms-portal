@@ -1,56 +1,18 @@
 import { initCustomSelects } from '../lib/custom-select.js';
-import { canUseCustomCursor, canUseRichMotion } from '../lib/perf.js';
-
-const HOVER_TARGETS = 'a, button, .service-card, .bento-card, .testimonial-card, .floating-cta, .custom-select-trigger, .custom-select-option, input, textarea';
-
-function setArrowPos(el, x, y) {
-  el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-}
+import { canUseRichMotion } from '../lib/perf.js';
 
 export function initCursor() {
-  if (!canUseCustomCursor()) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const cursor = document.querySelector('.cursor');
-  const arrow = cursor?.querySelector('.cursor-layer-arrow');
-  if (!cursor || !arrow) return;
-
-  document.documentElement.dataset.cursor = 'on';
-
-  let visible = false;
-  let cursorFrame = 0;
-  let nextX = 0;
-  let nextY = 0;
-
-  const paintCursor = () => {
-    setArrowPos(arrow, nextX, nextY);
-    cursorFrame = 0;
-  };
-
-  document.addEventListener('mousemove', (e) => {
-    nextX = e.clientX;
-    nextY = e.clientY;
-    if (!cursorFrame) cursorFrame = requestAnimationFrame(paintCursor);
-    if (!visible) {
-      visible = true;
-      cursor.classList.add('is-active');
-    }
-  }, { passive: true });
-
-  document.addEventListener('mouseleave', () => {
-    visible = false;
-    cursor.classList.remove('is-active', 'is-hover', 'is-click');
+  document.addEventListener('mousedown', (e) => {
+    const ripple = document.createElement('span');
+    ripple.className = 'click-ripple';
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top = `${e.clientY}px`;
+    document.body.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
   });
-
-  document.addEventListener('pointerover', (e) => {
-    if (e.target.closest(HOVER_TARGETS)) cursor.classList.add('is-hover');
-  }, { passive: true });
-
-  document.addEventListener('pointerout', (e) => {
-    if (e.target.closest(HOVER_TARGETS)) cursor.classList.remove('is-hover');
-  }, { passive: true });
-
-  document.addEventListener('mousedown', () => cursor.classList.add('is-click'));
-  document.addEventListener('mouseup', () => cursor.classList.remove('is-click'));
 }
 
 export function initMagneticButtons() {

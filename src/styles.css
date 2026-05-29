@@ -143,16 +143,6 @@ button, .btn-primary span, .btn-ghost span {
   box-decoration-break: clone;
 }
 
-html:not(.perf-lite)[data-cursor="on"] body,
-html:not(.perf-lite)[data-cursor="on"] button,
-html:not(.perf-lite)[data-cursor="on"] a,
-html:not(.perf-lite)[data-cursor="on"] input,
-html:not(.perf-lite)[data-cursor="on"] textarea,
-html:not(.perf-lite)[data-cursor="on"] label,
-html:not(.perf-lite)[data-cursor="on"] .custom-select-trigger,
-html:not(.perf-lite)[data-cursor="on"] .custom-select-option {
-  cursor: none;
-}
 
 body::before {
   content: '';
@@ -268,58 +258,25 @@ em, .italic {
   padding-block-end: 0.1em;
 }
 
-/* ---- Custom Cursor ---- */
-.cursor {
+/* ---- Click ripple ---- */
+.click-ripple {
   position: fixed;
-  inset: 0;
-  z-index: 10000;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(55, 160, 255, 0.72);
+  transform: translate(-50%, -50%) scale(0.4);
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  z-index: 9999;
+  animation: clickRipple 0.5s var(--ease-out-expo) forwards;
 }
 
-.cursor.is-active {
-  opacity: 1;
+@keyframes clickRipple {
+  0%   { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(3.8); opacity: 0; }
 }
 
-.cursor-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  transform-origin: 1px 1px;
-}
-
-.cursor-layer-arrow {
-  z-index: 2;
-}
-
-.cursor-arrow {
-  display: block;
-  overflow: visible;
-  transform-origin: 1px 1px;
-  transition: transform 0.28s var(--ease-out-expo), filter 0.28s ease;
-}
-
-.cursor-arrow-fill {
-  fill: url(#wms-cursor-grad);
-  stroke: rgba(3, 8, 16, 0.88);
-  stroke-width: 1.1;
-  stroke-linejoin: round;
-}
-
-.cursor.is-hover .cursor-layer-arrow .cursor-arrow {
-  transform: scale(1.2) rotate(-4deg);
-  filter: drop-shadow(0 0 10px rgba(122, 201, 67, 0.55));
-}
-
-.cursor.is-click .cursor-layer-arrow .cursor-arrow {
-  transform: scale(0.88) rotate(2deg);
-}
-
-.perf-lite .cursor {
-  display: none !important;
-}
+html.perf-lite .click-ripple { display: none; }
 
 /* ---- Hero logo ---- */
 .hero-logo-stage {
