@@ -6,6 +6,8 @@ import { initTeamGallery } from './lib/team-gallery.js';
 import { initSmoothScroll, initLoader, initHeroAnimations, initScrollAnimations } from './effects/scroll.js';
 import { initHeroCharReveal } from './lib/char-split.js';
 import { initTestimonialSlider } from './lib/testimonial-slider.js';
+import { initAmbientGlow } from './lib/ambient-glow.js';
+import { initHeroMesh } from './lib/hero-mesh.js';
 
 applyPerfClass();
 initSmoothScroll();
@@ -14,6 +16,8 @@ initLoader(() => {
   initHeroCharReveal();
   initHeroAnimations();
   initHeroLogo();
+  initHeroMesh();
+  initAmbientGlow();
   initTeamGallery();
   initTestimonialSlider();
   initScrollAnimations();

@@ -42,6 +42,12 @@
 }
 
 /* ---- Registered custom properties (compositor hint) ---- */
+@property --el-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @property --logo-progress {
   syntax: '<number>';
   initial-value: 0;
@@ -173,6 +179,39 @@ body::after {
   background-size: 120px 120px;
   mask-image: radial-gradient(ellipse 70% 48% at 50% 8%, black, transparent 72%);
   opacity: 0.45;
+}
+
+/* ---- Ambient Glow ---- */
+.ambient-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+  background: radial-gradient(
+    circle at center,
+    rgba(26, 127, 212, 0.13) 0%,
+    rgba(55, 160, 255, 0.07) 32%,
+    rgba(122, 201, 67, 0.04) 55%,
+    transparent 70%
+  );
+  transform: translate3d(-50%, -50%, 0);
+  opacity: 0;
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.4s ease;
+}
+
+.ambient-glow.is-active {
+  opacity: 1;
+}
+
+html.perf-lite .ambient-glow,
+html[data-perf="mobile"] .ambient-glow,
+html[data-perf="lite"] .ambient-glow {
+  display: none;
 }
 
 ::selection {
@@ -838,6 +877,70 @@ body.is-ready .hero-scan {
   0% { opacity: 0; background-position: 160% 0, 0 0; }
   12% { opacity: 1; }
   100% { opacity: 0; background-position: -80% 0, 0 0; }
+}
+
+/* ---- Hero Mesh Gradient ---- */
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mesh-blob-1 {
+  width: min(520px, 40vw);
+  height: min(520px, 40vw);
+  top: 2%;
+  left: 52%;
+  background: radial-gradient(circle, rgba(0, 85, 170, 0.52) 0%, transparent 68%);
+  filter: blur(52px);
+  transition-duration: 2.2s;
+}
+
+.mesh-blob-2 {
+  width: min(320px, 26vw);
+  height: min(320px, 26vw);
+  top: 52%;
+  left: 70%;
+  background: radial-gradient(circle, rgba(122, 201, 67, 0.44) 0%, transparent 68%);
+  filter: blur(42px);
+  transition-duration: 1.8s;
+}
+
+.mesh-blob-3 {
+  width: min(240px, 18vw);
+  height: min(240px, 18vw);
+  top: 16%;
+  left: 82%;
+  background: radial-gradient(circle, rgba(55, 160, 255, 0.50) 0%, transparent 65%);
+  filter: blur(34px);
+  transition-duration: 2.6s;
+}
+
+.mesh-blob-4 {
+  width: min(380px, 30vw);
+  height: min(380px, 30vw);
+  top: 38%;
+  left: 48%;
+  background: radial-gradient(circle, rgba(0, 40, 120, 0.32) 0%, transparent 65%);
+  filter: blur(60px);
+  transition-duration: 3s;
+}
+
+@media (max-width: 768px) {
+  .hero-mesh { display: none; }
+}
+
+html.perf-lite .hero-mesh {
+  display: none;
 }
 
 .hero-constellation {
@@ -1694,6 +1797,49 @@ html.perf-lite .hero-title .char {
   transform: translateX(-30%);
   transition: opacity 0.4s ease, transform 0.7s var(--ease-out-expo);
   pointer-events: none;
+}
+
+/* ---- Electric Border ---- */
+.el-border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--el-angle),
+    transparent 0deg,
+    rgba(55, 160, 255, 0.95) 55deg,
+    rgba(122, 201, 67, 0.95) 115deg,
+    transparent 170deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  clip-path: inset(0 round 28px);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+  animation: elSpin 3.5s linear infinite paused;
+  z-index: 2;
+}
+
+.service-card:hover .el-border {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes elSpin {
+  to { --el-angle: 360deg; }
+}
+
+html.perf-lite .el-border {
+  display: none;
 }
 
 .service-card-featured {
