@@ -32,25 +32,52 @@ export function initLoader(onComplete) {
   window.addEventListener('load', () => window.setTimeout(finish, 900), { once: true });
 }
 
-export function initHeroAnimations() {
-  document.querySelectorAll('.stat-number').forEach((el) => {
-    const target = Number.parseInt(el.dataset.target, 10);
-    if (!Number.isFinite(target)) return;
+function buildOdometer(el) {
+  const target = Number.parseInt(el.dataset.target, 10);
+  if (!Number.isFinite(target)) return;
 
-    window.setTimeout(() => {
-      const start = performance.now();
-      const duration = 1400;
+  const digits = String(target).split('');
+  el.textContent = '';
+  el.classList.add('is-odometer');
 
-      const tick = (now) => {
-        const progress = Math.min(1, (now - start) / duration);
-        const eased = 1 - (1 - progress) ** 3;
-        el.textContent = String(Math.round(target * eased));
-        if (progress < 1) requestAnimationFrame(tick);
-      };
+  digits.forEach((digit, i) => {
+    const wrap = document.createElement('span');
+    wrap.className = 'odo-digit';
 
-      requestAnimationFrame(tick);
-    }, 900);
+    const col = document.createElement('span');
+    col.className = 'odo-col';
+
+    for (let n = 0; n <= 9; n++) {
+      const num = document.createElement('span');
+      num.textContent = n;
+      col.appendChild(num);
+    }
+
+    wrap.appendChild(col);
+    el.appendChild(wrap);
+
+    // Stagger por coluna — unidades primeiro, depois dezenas, centenas
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        col.style.transform = `translateY(${-Number(digit)}em)`;
+      }, 80 + i * 140);
+    });
   });
+}
+
+export function initHeroAnimations() {
+  const stats = document.querySelectorAll('.stat-number');
+  if (!stats.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(entry.target);
+      buildOdometer(entry.target);
+    });
+  }, { threshold: 0.65 });
+
+  stats.forEach((el) => observer.observe(el));
 }
 
 export function initScrollAnimations() {

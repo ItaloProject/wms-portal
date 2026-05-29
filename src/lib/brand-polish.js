@@ -1,5 +1,34 @@
 import { onScroll } from './scroll-runtime.js';
 
+export function initLocalParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+
+  const main = document.querySelector('.local-photo-main img');
+  const secondary = document.querySelector('.local-photo-secondary img');
+  const photos = [main, secondary].filter(Boolean);
+  if (!photos.length) return;
+
+  const FACTORS = [0.09, 0.055];
+
+  photos.forEach((img) => { img.style.transition = 'none'; });
+
+  const MAX_SHIFT = 36; // px — dentro da margem de scale(1.14)
+
+  const update = () => {
+    photos.forEach((img, i) => {
+      const rect = img.closest('.local-photo').getBoundingClientRect();
+      const offset = (rect.top + rect.height / 2) - window.innerHeight / 2;
+      const raw = -offset * FACTORS[i];
+      const shift = Math.min(MAX_SHIFT, Math.max(-MAX_SHIFT, raw)).toFixed(2);
+      img.style.transform = `scale(1.14) translateY(${shift}px)`;
+    });
+  };
+
+  onScroll(update);
+  update();
+}
+
 const NAV_SECTIONS = [
   { id: 'sobre', href: '#sobre' },
   { id: 'local', href: '#local' },

@@ -1034,6 +1034,14 @@ body.is-ready .hero-stats { animation: heroIn 0.85s var(--ease-out-expo) 0.88s f
   50% { opacity: 0.5; transform: scale(1.5); }
 }
 
+.badge-text {
+  transition: opacity 0.35s ease;
+}
+
+.badge-text.is-fading {
+  opacity: 0;
+}
+
 .hero-title {
   font-size: clamp(2.75rem, 6.2vw, 5.8rem);
   font-weight: 800;
@@ -1294,6 +1302,39 @@ html.perf-lite .hero-title .char {
   background-clip: text;
 }
 
+/* ---- Odometer ---- */
+.stat-number.is-odometer {
+  display: inline-flex;
+  gap: 0;
+  background: none;
+  -webkit-text-fill-color: inherit;
+  color: var(--text);
+}
+
+.odo-digit {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.odo-col {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform 1.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.odo-col span {
+  display: block;
+  height: 1em;
+  line-height: 1;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .stat-suffix {
   font-size: 1.5rem;
   font-weight: 700;
@@ -1457,6 +1498,13 @@ html.perf-lite .hero-title .char {
   text-transform: uppercase;
   color: var(--accent-light);
   margin-bottom: 16px;
+  clip-path: inset(0 100% 0 0);
+  opacity: 1;
+}
+
+.section-tag.revealed {
+  clip-path: inset(0 0% 0 0);
+  transition: clip-path 0.9s var(--ease-out-expo), opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
 }
 
 .section-title {
@@ -1467,6 +1515,13 @@ html.perf-lite .hero-title .char {
   letter-spacing: -0.03em;
   padding-block-end: 0.14em;
   overflow: visible;
+  clip-path: inset(0 0 110% 0);
+  opacity: 1;
+}
+
+.section-title.revealed {
+  clip-path: inset(0 0 0% 0);
+  transition: clip-path 1s var(--ease-out-expo), opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
 }
 
 .section-title::after {
@@ -1491,6 +1546,7 @@ html.perf-lite .hero-title .char {
 .section-title.revealed::after {
   transform: scaleX(1);
   opacity: 1;
+  transition-delay: 0.55s;
 }
 
 .section-title em,
@@ -3283,6 +3339,13 @@ html.perf-lite .floating-cta {
 }
 
 .reveal-left { transform: translateX(-40px); }
+
+/* Section-tag e section-title usam clip-path reveal — reset opacity/transform */
+.section-tag.reveal-left,
+.section-title {
+  opacity: 1;
+  transform: none;
+}
 
 .revealed {
   opacity: 1 !important;

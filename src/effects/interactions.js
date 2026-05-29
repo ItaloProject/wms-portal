@@ -148,6 +148,32 @@ export function initDiagnosticForm() {
   });
 }
 
+export function initBadgeRotator() {
+  const textEl = document.querySelector('.badge-text');
+  if (!textEl) return;
+
+  const phrases = [
+    'CRC • Fiscal • DP • Estratégia',
+    'Especialistas em contabilidade',
+    'Atendimento consultivo',
+    'Conformidade e crescimento',
+  ];
+
+  let idx = 0;
+
+  // Começa após as animações de entrada do hero (~2s)
+  setTimeout(() => {
+    setInterval(() => {
+      textEl.classList.add('is-fading');
+      setTimeout(() => {
+        idx = (idx + 1) % phrases.length;
+        textEl.textContent = phrases[idx];
+        textEl.classList.remove('is-fading');
+      }, 370);
+    }, 3500);
+  }, 2200);
+}
+
 export function initMobileNav() {
   const nav = document.getElementById('nav');
   const toggle = nav?.querySelector('.nav-toggle');

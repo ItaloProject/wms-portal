@@ -1,6 +1,6 @@
 import { applyPerfClass } from './lib/perf.js';
 import './styles.css';
-import { initCursor, initMagneticButtons, initTiltCards, initFormFeedback, initDiagnosticForm, initMobileNav } from './effects/interactions.js';
+import { initCursor, initMagneticButtons, initTiltCards, initFormFeedback, initDiagnosticForm, initMobileNav, initBadgeRotator } from './effects/interactions.js';
 import { initHeroLogo } from './lib/hero-logo.js';
 import { initTeamGallery } from './lib/team-gallery.js';
 import { initSmoothScroll, initLoader, initHeroAnimations, initScrollAnimations } from './effects/scroll.js';
@@ -8,6 +8,7 @@ import { initHeroCharReveal } from './lib/char-split.js';
 import { initTestimonialSlider } from './lib/testimonial-slider.js';
 import { initAmbientGlow } from './lib/ambient-glow.js';
 import { initHeroMesh } from './lib/hero-mesh.js';
+import { initLocalParallax } from './lib/brand-polish.js';
 
 applyPerfClass();
 initSmoothScroll();
@@ -21,6 +22,8 @@ initLoader(() => {
   initTeamGallery();
   initTestimonialSlider();
   initScrollAnimations();
+  initLocalParallax();
+  initBadgeRotator();
   initFormFeedback();
   initDiagnosticForm();
   initMobileNav();
