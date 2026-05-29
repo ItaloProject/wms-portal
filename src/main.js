@@ -1,6 +1,6 @@
 import { applyPerfClass } from './lib/perf.js';
 import './styles.css';
-import { initCursor, initMagneticButtons, initTiltCards, initFormFeedback, initDiagnosticForm } from './effects/interactions.js';
+import { initCursor, initMagneticButtons, initTiltCards, initFormFeedback, initDiagnosticForm, initMobileNav } from './effects/interactions.js';
 import { initHeroLogo } from './lib/hero-logo.js';
 import { initTeamGallery } from './lib/team-gallery.js';
 import { initSmoothScroll, initLoader, initHeroAnimations, initScrollAnimations } from './effects/scroll.js';
@@ -18,4 +18,5 @@ initLoader(() => {
   initCursor();
   initMagneticButtons();
   initTiltCards();
+  initMobileNav();
 });
