@@ -8,25 +8,46 @@ export function initHeroLogo() {
   if (!stage || !hero) return;
 
   const richMotion = canUseRichMotion();
+  const mq = window.matchMedia('(max-width: 768px)');
+  let metrics = {
+    heroTop: 0,
+    scrollSpan: 1,
+    startOffset: 0,
+  };
+  let lastProgress = -1;
+
+  const measure = () => {
+    const isMobile = mq.matches;
+    const scrollFactor = isMobile ? 0.9 : 0.55;
+    const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
+    metrics = {
+      heroTop: hero.offsetTop,
+      scrollSpan: Math.max(hero.offsetHeight * scrollFactor, 1),
+      startOffset: isMobile ? navOffset * 0.8 : navOffset * 0.35,
+    };
+  };
 
   const update = () => {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const scrollFactor = isMobile ? 0.75 : 0.55;
-    const scrollSpan = Math.max(hero.offsetHeight * scrollFactor, 1);
-    const rect = hero.getBoundingClientRect();
-    const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
-    const scrolled = Math.max(0, window.scrollY - hero.offsetTop + navOffset * 0.35);
-    const rectProgress = Math.max(0, -rect.top / scrollSpan);
-    const scrollProgress = scrolled / scrollSpan;
-    const progress = Math.min(1, Math.max(rectProgress, scrollProgress));
+    const scrolled = Math.max(0, window.scrollY - metrics.heroTop + metrics.startOffset);
+    const progress = Math.min(1, scrolled / metrics.scrollSpan);
+
+    if (Math.abs(progress - lastProgress) < 0.01) return;
+    lastProgress = progress;
 
     stage.style.setProperty('--logo-progress', progress.toFixed(3));
     reveal?.classList.toggle('is-alive', progress >= 0.45);
   };
 
+  measure();
   onScroll(update);
-  window.addEventListener('resize', update, { passive: true });
-  window.addEventListener('load', update, { once: true });
+  window.addEventListener('resize', () => {
+    measure();
+    update();
+  }, { passive: true });
+  window.addEventListener('load', () => {
+    measure();
+    update();
+  }, { once: true });
 
   if (richMotion) {
     let parallaxFrame = 0;

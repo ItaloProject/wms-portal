@@ -1,6 +1,5 @@
 const tasks = new Set();
 let ticking = false;
-let scrollEndTimer = 0;
 
 function runTasks() {
   tasks.forEach((task) => task());
@@ -8,12 +7,6 @@ function runTasks() {
 }
 
 function onScrollFrame() {
-  document.documentElement.classList.add('is-scrolling');
-  window.clearTimeout(scrollEndTimer);
-  scrollEndTimer = window.setTimeout(() => {
-    document.documentElement.classList.remove('is-scrolling');
-  }, 120);
-
   if (!ticking) {
     ticking = true;
     requestAnimationFrame(runTasks);

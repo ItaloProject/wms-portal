@@ -34,7 +34,6 @@ function bindDuration(track, speed = PX_PER_SEC) {
   }
 
   window.addEventListener('load', sync, { once: true });
-  window.addEventListener('resize', sync, { passive: true });
   requestAnimationFrame(() => requestAnimationFrame(sync));
 }
 

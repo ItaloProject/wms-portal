@@ -15,8 +15,17 @@ initLoader(() => {
   initScrollAnimations();
   initFormFeedback();
   initDiagnosticForm();
-  initCursor();
-  initMagneticButtons();
-  initTiltCards();
   initMobileNav();
+
+  const runEffects = () => {
+    initCursor();
+    initMagneticButtons();
+    initTiltCards();
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(runEffects, { timeout: 1200 });
+  } else {
+    setTimeout(runEffects, 150);
+  }
 });

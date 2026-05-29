@@ -25,13 +25,6 @@ export function initCursor() {
   const paintCursor = () => {
     setArrowPos(arrow, nextX, nextY);
     setArrowPos(trail, nextX, nextY);
-    if (
-      document.documentElement.dataset.perf === 'high'
-      && !document.documentElement.classList.contains('is-scrolling')
-    ) {
-      document.documentElement.style.setProperty('--cursor-x', `${(nextX / window.innerWidth) * 100}%`);
-      document.documentElement.style.setProperty('--cursor-y', `${(nextY / window.innerHeight) * 100}%`);
-    }
     cursorFrame = 0;
   };
 
@@ -50,13 +43,13 @@ export function initCursor() {
     cursor.classList.remove('is-active', 'is-hover', 'is-click');
   });
 
-  document.addEventListener('mouseover', (e) => {
+  document.addEventListener('pointerover', (e) => {
     if (e.target.closest(HOVER_TARGETS)) cursor.classList.add('is-hover');
-  });
+  }, { passive: true });
 
-  document.addEventListener('mouseout', (e) => {
+  document.addEventListener('pointerout', (e) => {
     if (e.target.closest(HOVER_TARGETS)) cursor.classList.remove('is-hover');
-  });
+  }, { passive: true });
 
   document.addEventListener('mousedown', () => cursor.classList.add('is-click'));
   document.addEventListener('mouseup', () => cursor.classList.remove('is-click'));
