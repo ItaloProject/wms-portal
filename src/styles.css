@@ -268,14 +268,14 @@ em, .italic {
   padding-block-end: 0.1em;
 }
 
-/* ---- Custom Cursor (seta angular) ---- */
+/* ---- Custom Cursor ---- */
 .cursor {
   position: fixed;
   inset: 0;
   z-index: 10000;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.3s ease;
 }
 
 .cursor.is-active {
@@ -290,16 +290,6 @@ em, .italic {
   transform-origin: 1px 1px;
 }
 
-.cursor-layer-trail {
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1;
-}
-
-.cursor-layer-trail .cursor-arrow {
-  opacity: 0.28;
-  filter: drop-shadow(0 0 8px rgba(26, 127, 212, 0.35));
-}
-
 .cursor-layer-arrow {
   z-index: 2;
 }
@@ -307,48 +297,24 @@ em, .italic {
 .cursor-arrow {
   display: block;
   overflow: visible;
-  transition: transform 0.35s var(--ease-out-expo), filter 0.35s ease;
   transform-origin: 1px 1px;
+  transition: transform 0.28s var(--ease-out-expo), filter 0.28s ease;
 }
 
-.cursor-arrow-shape {
+.cursor-arrow-fill {
   fill: url(#wms-cursor-grad);
-  stroke: rgba(3, 8, 16, 0.92);
-  stroke-width: 1.15;
-  stroke-linejoin: miter;
-  stroke-miterlimit: 4;
-}
-
-.cursor-arrow-edge {
-  fill: none;
-  stroke: rgba(201, 255, 115, 0.55);
-  stroke-width: 1;
-  stroke-linejoin: miter;
-  opacity: 0.85;
+  stroke: rgba(3, 8, 16, 0.88);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
 }
 
 .cursor.is-hover .cursor-layer-arrow .cursor-arrow {
-  transform: scale(1.18) rotate(-4deg);
-  filter: drop-shadow(0 0 10px rgba(122, 201, 67, 0.45));
-}
-
-.cursor.is-hover .cursor-layer-trail .cursor-arrow {
-  opacity: 0.42;
-  transform: scale(1.28) rotate(-6deg);
-}
-
-.cursor.is-hover .cursor-arrow-edge {
-  stroke: rgba(201, 255, 115, 0.9);
-  stroke-width: 1.25;
+  transform: scale(1.2) rotate(-4deg);
+  filter: drop-shadow(0 0 10px rgba(122, 201, 67, 0.55));
 }
 
 .cursor.is-click .cursor-layer-arrow .cursor-arrow {
   transform: scale(0.88) rotate(2deg);
-}
-
-.cursor.is-click .cursor-layer-trail .cursor-arrow {
-  opacity: 0.18;
-  transform: scale(0.95);
 }
 
 .perf-lite .cursor {

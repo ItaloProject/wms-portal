@@ -11,9 +11,8 @@ export function initCursor() {
   if (!canUseCustomCursor()) return;
 
   const cursor = document.querySelector('.cursor');
-  const trail = cursor?.querySelector('.cursor-layer-trail');
   const arrow = cursor?.querySelector('.cursor-layer-arrow');
-  if (!cursor || !trail || !arrow) return;
+  if (!cursor || !arrow) return;
 
   document.documentElement.dataset.cursor = 'on';
 
@@ -24,7 +23,6 @@ export function initCursor() {
 
   const paintCursor = () => {
     setArrowPos(arrow, nextX, nextY);
-    setArrowPos(trail, nextX, nextY);
     cursorFrame = 0;
   };
 
