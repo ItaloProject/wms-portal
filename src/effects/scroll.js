@@ -1,5 +1,6 @@
 import { initRevealObserver, initSectionObserver } from '../lib/reveal.js';
 import { initScrollProgress, initNavSpy } from '../lib/brand-polish.js';
+import { initScrollRuntime, onScroll } from '../lib/scroll-runtime.js';
 
 export function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -53,26 +54,23 @@ export function initHeroAnimations() {
 }
 
 export function initScrollAnimations() {
-  const nav = document.getElementById('nav');
-  let ticking = false;
+  initScrollRuntime();
 
+  const nav = document.getElementById('nav');
   const updateNav = () => {
     nav?.classList.toggle('scrolled', window.scrollY > 80);
-    ticking = false;
   };
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(updateNav);
-    }
-  }, { passive: true });
-
+  onScroll(updateNav);
   updateNav();
+
   initScrollProgress();
   initNavSpy();
   initRevealObserver();
   initSectionObserver('.inovacao');
   initSectionObserver('.services-stack', 'in-view');
   initSectionObserver('.journey', 'in-view');
+  initSectionObserver('.marquee-section', 'in-view');
+  initSectionObserver('.cta-section', 'in-view');
+  initSectionObserver('#hero', 'in-view');
 }

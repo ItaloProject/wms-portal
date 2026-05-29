@@ -1,4 +1,5 @@
 import { canUseRichMotion } from './perf.js';
+import { onScroll } from './scroll-runtime.js';
 
 export function initHeroLogo() {
   const stage = document.querySelector('.hero-logo-stage');
@@ -7,10 +8,10 @@ export function initHeroLogo() {
   if (!stage || !hero) return;
 
   let heroVisible = true;
-  let ticking = false;
   const richMotion = canUseRichMotion();
 
   const update = () => {
+    if (!heroVisible) return;
     const rect = hero.getBoundingClientRect();
     const scrollSpan = Math.max(hero.offsetHeight * 0.5, 1);
     const progress = Math.min(1, Math.max(0, -rect.top / scrollSpan));
@@ -25,14 +26,7 @@ export function initHeroLogo() {
     }, { threshold: 0 }).observe(hero);
   }
 
-  window.addEventListener('scroll', () => {
-    if (!heroVisible || ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      update();
-      ticking = false;
-    });
-  }, { passive: true });
+  onScroll(update);
 
   if (richMotion) {
     let parallaxFrame = 0;

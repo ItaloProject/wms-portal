@@ -56,11 +56,15 @@ export function initTeamGallery() {
     bindDuration(cityTrack, PX_PER_SEC * MINI_SPEED_FACTOR);
   }
 
+  const setActive = (active) => {
+    section.classList.toggle('in-view', active);
+    track.style.animationPlayState = active ? 'running' : 'paused';
+    if (cityTrack) cityTrack.style.animationPlayState = active ? 'running' : 'paused';
+  };
+
   const observer = new IntersectionObserver(
-    ([entry]) => {
-      section.classList.toggle('in-view', entry.isIntersecting);
-    },
-    { threshold: 0.12, rootMargin: '0px 0px -5% 0px' },
+    ([entry]) => setActive(entry.isIntersecting),
+    { threshold: 0.08, rootMargin: '120px 0px 120px 0px' },
   );
 
   observer.observe(section);

@@ -1,3 +1,5 @@
+import { onScroll } from './scroll-runtime.js';
+
 const NAV_SECTIONS = [
   { id: 'sobre', href: '#sobre' },
   { id: 'local', href: '#local' },
@@ -10,22 +12,13 @@ export function initScrollProgress() {
   const bar = document.querySelector('.scroll-progress');
   if (!bar) return;
 
-  let ticking = false;
-
   const update = () => {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
     bar.style.setProperty('--progress', String(Math.min(1, Math.max(0, progress))));
-    ticking = false;
   };
 
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }, { passive: true });
-
+  onScroll(update);
   update();
 }
 

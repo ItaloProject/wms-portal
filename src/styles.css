@@ -3028,6 +3028,78 @@ html.perf-lite .floating-cta {
   animation: none !important;
 }
 
+/* ---- Scroll performance ---- */
+html.is-scrolling body::before {
+  --cursor-x: 78%;
+  --cursor-y: 22%;
+}
+
+html:not([data-perf="high"]) body::before {
+  background:
+    radial-gradient(ellipse 68% 52% at 78% 22%, rgba(0, 85, 170, 0.28), transparent 62%),
+    radial-gradient(ellipse 48% 42% at 18% 78%, rgba(122, 201, 67, 0.18), transparent 58%),
+    radial-gradient(ellipse 40% 35% at 50% 50%, rgba(26, 127, 212, 0.06), transparent 50%),
+    var(--bg);
+}
+
+.section:not(#hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
+}
+
+.marquee-section:not(.in-view) .marquee-track,
+.cta-section:not(.in-view) .cta-gradient,
+.equipe-section:not(.in-view) .equipe-track--main,
+.equipe-section:not(.in-view) .equipe-track--mini,
+.equipe-section:not(.in-view) .equipe-slide-frame img,
+.equipe-section:not(.in-view) .equipe-shimmer,
+.equipe-section:not(.in-view) .equipe-glow,
+.inovacao:not(.in-view) .inovacao-ring-1,
+.inovacao:not(.in-view) .inovacao-ring-2,
+.hero:not(.in-view) .hero-orb,
+.hero:not(.in-view) .hero-logo-halo,
+.hero:not(.in-view) .hero-logo-glow,
+.hero:not(.in-view) .hero-logo-shimmer {
+  animation-play-state: paused;
+}
+
+.equipe-section:not(.in-view) .equipe-glow {
+  opacity: 0;
+}
+
+.equipe-section.in-view .equipe-track {
+  will-change: transform;
+}
+
+.equipe-track {
+  will-change: auto;
+}
+
+html[data-perf="medium"] .equipe-slide-frame img,
+html[data-perf="lite"] .equipe-slide-frame img {
+  animation: none;
+}
+
+html[data-perf="medium"] .equipe-glow,
+html[data-perf="lite"] .equipe-glow {
+  display: none;
+}
+
+html[data-perf="medium"] .cta-gradient,
+html[data-perf="lite"] .cta-gradient {
+  animation: none;
+}
+
+html[data-perf="medium"] .revealed,
+html[data-perf="lite"] .revealed {
+  transition-duration: 0.35s;
+}
+
+html[data-perf="medium"] .floating-cta,
+html[data-perf="lite"] .floating-cta {
+  animation: none;
+}
+
 /* ---- Responsive ---- */
 
 /* Tablet landscape / small desktop */

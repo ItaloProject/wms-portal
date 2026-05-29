@@ -1,5 +1,5 @@
 import { initCustomSelects } from '../lib/custom-select.js';
-import { canUseCustomCursor } from '../lib/perf.js';
+import { canUseCustomCursor, canUseRichMotion } from '../lib/perf.js';
 
 const HOVER_TARGETS = 'a, button, .service-card, .bento-card, .testimonial-card, .floating-cta, .custom-select-trigger, .custom-select-option, input, textarea';
 
@@ -25,8 +25,13 @@ export function initCursor() {
   const paintCursor = () => {
     setArrowPos(arrow, nextX, nextY);
     setArrowPos(trail, nextX, nextY);
-    document.documentElement.style.setProperty('--cursor-x', `${(nextX / window.innerWidth) * 100}%`);
-    document.documentElement.style.setProperty('--cursor-y', `${(nextY / window.innerHeight) * 100}%`);
+    if (
+      document.documentElement.dataset.perf === 'high'
+      && !document.documentElement.classList.contains('is-scrolling')
+    ) {
+      document.documentElement.style.setProperty('--cursor-x', `${(nextX / window.innerWidth) * 100}%`);
+      document.documentElement.style.setProperty('--cursor-y', `${(nextY / window.innerHeight) * 100}%`);
+    }
     cursorFrame = 0;
   };
 
@@ -78,6 +83,7 @@ export function initMagneticButtons() {
 
 export function initTiltCards() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!canUseRichMotion()) return;
 
   const cards = document.querySelectorAll('.service-card, .bento-card, .testimonial-card');
   cards.forEach((card) => {
