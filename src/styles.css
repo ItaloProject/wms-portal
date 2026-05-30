@@ -324,40 +324,49 @@ html.perf-lite .click-ripple { display: none; }
   background: conic-gradient(
     from 0deg,
     transparent 0%,
-    rgba(26, 127, 212, 0.28) 16%,
-    rgba(122, 201, 67, 0.22) 38%,
-    transparent 58%,
-    rgba(55, 160, 255, 0.12) 78%,
+    rgba(26, 127, 212, 0.18) 22%,
+    rgba(122, 201, 67, 0.13) 44%,
+    transparent 64%,
+    rgba(55, 160, 255, 0.08) 84%,
     transparent 100%
   );
-  filter: blur(22px);
-  animation: heroLogoHalo 20s linear infinite;
+  filter: blur(32px);
+  animation: heroLogoHalo 36s linear infinite;
 }
 
-.hero-logo-orbit {
+/* Glow azul — pulsa lentamente */
+.hero-logo-fx::before {
+  content: '';
   position: absolute;
-  inset: 4%;
-}
-
-.hero-logo-orbit-ring {
-  position: absolute;
-  inset: 0;
-  border: 1px dashed rgba(55, 160, 255, 0.38);
+  inset: 10%;
   border-radius: 50%;
-  animation: orbitSpin 36s linear infinite;
+  background: radial-gradient(circle, rgba(26, 127, 212, 0.38) 0%, transparent 68%);
+  filter: blur(24px);
+  animation: glowPulseBlue 5.5s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.hero-logo-orbit-dot {
+/* Glow verde — fase deslocada */
+.hero-logo-fx::after {
+  content: '';
   position: absolute;
-  top: -4px;
-  left: 50%;
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
+  inset: 20%;
   border-radius: 50%;
-  background: var(--accent-secondary);
-  box-shadow: 0 0 20px rgba(122, 201, 67, 0.85);
-  animation: orbitSpin 36s linear infinite;
+  background: radial-gradient(circle, rgba(122, 201, 67, 0.3) 0%, transparent 62%);
+  filter: blur(20px);
+  animation: glowPulseGreen 7s ease-in-out infinite;
+  animation-delay: -3.5s;
+  pointer-events: none;
+}
+
+@keyframes glowPulseBlue {
+  0%, 100% { transform: scale(1);    opacity: 0.6; }
+  50%       { transform: scale(1.22); opacity: 1;   }
+}
+
+@keyframes glowPulseGreen {
+  0%, 100% { transform: scale(1);    opacity: 0.45; }
+  50%       { transform: scale(1.28); opacity: 0.88; }
 }
 
 .hero-logo-glow {
@@ -365,11 +374,11 @@ html.perf-lite .click-ripple { display: none; }
   inset: -18%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 48% 42%, rgba(122, 201, 67, 0.22), transparent 42%),
-    radial-gradient(circle at 50% 50%, rgba(0, 85, 170, 0.32), transparent 64%);
-  opacity: calc(var(--logo-progress) * 0.7);
+    radial-gradient(circle at 48% 42%, rgba(122, 201, 67, 0.28), transparent 42%),
+    radial-gradient(circle at 50% 50%, rgba(0, 85, 170, 0.38), transparent 64%);
+  opacity: calc(var(--logo-progress) * 0.75);
   pointer-events: none;
-  animation: heroLogoGlow 4.8s ease-in-out infinite;
+  animation: heroLogoGlow 6s ease-in-out infinite;
 }
 
 .hero-logo-shimmer {
@@ -396,11 +405,11 @@ html.perf-lite .click-ripple { display: none; }
 
 .hero-logo-reveal.is-alive .hero-logo-shimmer {
   opacity: calc(var(--logo-progress) * 0.85);
-  animation: heroLogoShimmer 5.2s ease-in-out infinite;
+  animation: heroLogoShimmer 8s ease-in-out infinite;
 }
 
 .hero-logo-reveal.is-alive .hero-logo-img {
-  animation: heroLogoFloat 5.5s ease-in-out infinite;
+  animation: heroLogoFloat 6.5s ease-in-out infinite;
 }
 
 .hero-logo-img {
@@ -417,25 +426,28 @@ html.perf-lite .click-ripple { display: none; }
 
 @keyframes heroLogoGlow {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
+  50%       { transform: scale(1.1); }
 }
 
 @keyframes heroLogoShimmer {
-  0%, 72%, 100% { transform: translateX(-130%) skewX(-14deg); }
-  38% { transform: translateX(130%) skewX(-14deg); }
+  0%, 68%, 100% { transform: translateX(-150%) skewX(-14deg); }
+  40%            { transform: translateX(150%) skewX(-14deg); }
 }
 
 @keyframes heroLogoFloat {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-7px); }
+  50%       { transform: translateY(-10px); }
 }
 
 html.perf-lite .hero-logo-halo,
-html.perf-lite .hero-logo-orbit-ring,
-html.perf-lite .hero-logo-orbit-dot,
 html.perf-lite .hero-logo-glow,
 html.perf-lite .hero-logo-shimmer,
 html.perf-lite .hero-logo-reveal.is-alive .hero-logo-img {
+  animation: none !important;
+}
+
+html.perf-lite .hero-logo-fx::before,
+html.perf-lite .hero-logo-fx::after {
   animation: none !important;
 }
 
@@ -3344,8 +3356,8 @@ html:not([data-perf="high"]) .nav.scrolled {
 .hero:not(.in-view) .hero-logo-halo,
 .hero:not(.in-view) .hero-logo-glow,
 .hero:not(.in-view) .hero-logo-shimmer,
-.hero:not(.in-view) .hero-logo-orbit-ring,
-.hero:not(.in-view) .hero-logo-orbit-dot,
+.hero:not(.in-view) .hero-logo-fx::before,
+.hero:not(.in-view) .hero-logo-fx::after,
 .hero:not(.in-view) .hero-constellation span,
 .hero:not(.in-view) .badge-dot,
 .hero:not(.in-view) .scroll-line,
@@ -3432,27 +3444,28 @@ html[data-perf="mobile"] .hero-orb {
 }
 
 html[data-perf="mobile"] .hero-logo-halo {
-  animation: heroLogoHalo 24s linear infinite;
+  animation: heroLogoHalo 42s linear infinite;
 }
 
-html[data-perf="mobile"] .hero-logo-orbit-ring {
-  animation: orbitSpin 40s linear infinite;
+html[data-perf="mobile"] .hero-logo-fx::before {
+  animation: glowPulseBlue 7s ease-in-out infinite;
 }
 
-html[data-perf="mobile"] .hero-logo-orbit-dot {
-  animation: orbitSpin 40s linear infinite;
+html[data-perf="mobile"] .hero-logo-fx::after {
+  animation: glowPulseGreen 9s ease-in-out infinite;
+  animation-delay: -4s;
 }
 
 html[data-perf="mobile"] .hero-logo-glow {
-  animation: heroLogoGlow 5.2s ease-in-out infinite;
+  animation: heroLogoGlow 7s ease-in-out infinite;
 }
 
 html[data-perf="mobile"] .hero-logo-reveal.is-alive .hero-logo-shimmer {
-  animation: heroLogoShimmer 5.6s ease-in-out infinite;
+  animation: heroLogoShimmer 10s ease-in-out infinite;
 }
 
 html[data-perf="mobile"] .hero-logo-reveal.is-alive .hero-logo-img {
-  animation: heroLogoFloat 5.8s ease-in-out infinite;
+  animation: heroLogoFloat 7s ease-in-out infinite;
 }
 
 /* ---- Responsive ---- */
