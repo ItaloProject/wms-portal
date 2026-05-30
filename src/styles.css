@@ -3328,8 +3328,19 @@ html.perf-lite .floating-cta {
 .journey-step:nth-child(4).revealed { transition-delay: 0.24s; }
 
 .btn-primary.is-sent {
+  background: linear-gradient(135deg, #2e9e4f, #4ab84a);
   transform: scale(1.04);
-  transition: transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary.is-error {
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  transition: background 0.3s ease;
+}
+
+.btn-primary.is-loading {
+  opacity: 0.75;
+  pointer-events: none;
 }
 
 /* ---- Performance lite ---- */

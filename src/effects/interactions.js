@@ -65,17 +65,50 @@ export function initTiltCards() {
   });
 }
 export function initFormFeedback() {
-  document.querySelector('.cta-form')?.addEventListener('submit', (e) => {
+  const form = document.querySelector('.cta-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = e.target.querySelector('.btn-primary span');
-    if (!btn) return;
-    const original = btn.textContent;
-    btn.textContent = 'Enviado! ✓';
-    btn.parentElement?.classList.add('is-sent');
-    window.setTimeout(() => {
-      btn.textContent = original;
-      btn.parentElement?.classList.remove('is-sent');
-    }, 3000);
+    const btn = form.querySelector('.btn-primary');
+    const span = btn?.querySelector('span');
+    if (!btn || !span) return;
+
+    const original = span.textContent;
+    span.textContent = 'Enviando…';
+    btn.disabled = true;
+    btn.classList.add('is-loading');
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        span.textContent = 'Enviado! ✓';
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-sent');
+        form.reset();
+        window.setTimeout(() => {
+          span.textContent = original;
+          btn.disabled = false;
+          btn.classList.remove('is-sent');
+        }, 4000);
+      } else {
+        throw new Error('Falha');
+      }
+    } catch {
+      span.textContent = 'Erro — tente novamente';
+      btn.classList.remove('is-loading');
+      btn.classList.add('is-error');
+      window.setTimeout(() => {
+        span.textContent = original;
+        btn.disabled = false;
+        btn.classList.remove('is-error');
+      }, 3500);
+    }
   });
 }
 
