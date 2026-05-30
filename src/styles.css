@@ -307,7 +307,7 @@ html.perf-lite .click-ripple { display: none; }
   transform-style: preserve-3d;
   transition: none;
   will-change: opacity, transform;
-  --logo-mask: url('/logo-wms.png?v=12');
+  --logo-mask: url('/logo-wms.png?v=13');
 }
 
 body.is-ready .hero-logo-reveal {
