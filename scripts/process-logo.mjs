@@ -104,6 +104,24 @@ for (let y = 1; y < height - 1; y++) {
   }
 }
 
+// De-matting: remove contaminação branca de pixels semi-transparentes nas bordas.
+// Pixels que foram compostos sobre fundo branco (C = original*A + 255*(1-A))
+// ficam "lavados". Revertemos: original = (C - 255*(1-A)) / A
+for (let y = 0; y < height; y++) {
+  for (let x = 0; x < width; x++) {
+    const i = idx(x, y);
+    const a = pixels[i + 3];
+    if (a === 0 || a === 255) continue; // ignora totalmente transparente/opaco
+
+    const af = a / 255;
+    for (let c = 0; c < 3; c++) {
+      // Reverte composição sobre branco
+      const original = (pixels[i + c] - 255 * (1 - af)) / af;
+      pixels[i + c] = Math.max(0, Math.min(255, Math.round(original)));
+    }
+  }
+}
+
 await sharp(Buffer.from(pixels), { raw: { width, height, channels: 4 } })
   .trim({ threshold: 8 })
   .png({ compressionLevel: 9 })
