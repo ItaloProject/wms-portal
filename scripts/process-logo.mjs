@@ -74,31 +74,41 @@ while (qi < queue.length) {
   }
 }
 
-// ─── Passe 1: suaviza franja branca nas bordas do recorte ───────────────────
-// Pixels opacos adjacentes a pixels transparentes que ainda sejam
-// quase-brancos (possivelmente anti-aliasing sobre branco) têm alpha reduzido.
-for (let y = 1; y < height-1; y++) {
-  for (let x = 1; x < width-1; x++) {
-    const i = idx(x, y);
-    if (pixels[i+3] === 0) continue;   // já transparente
+// ─── Passe 1: fringe removal multi-passe ────────────────────────────────────
+// Repete 3 vezes para erodir gradativamente as bordas claras das letras.
+for (let pass = 0; pass < 3; pass++) {
+  for (let y = 1; y < height-1; y++) {
+    for (let x = 1; x < width-1; x++) {
+      const i = idx(x, y);
+      if (pixels[i+3] === 0) continue;
 
-    let tNeighbors = 0;
-    for (const [nx, ny] of [[x+1,y],[x-1,y],[x,y+1],[x,y-1]]) {
-      if (pixels[idx(nx, ny)+3] === 0) tNeighbors++;
-    }
-    if (tNeighbors === 0) continue;
+      // Conta vizinhos (4 + diagonais) transparentes
+      let tN = 0;
+      for (const [nx, ny] of [
+        [x+1,y],[x-1,y],[x,y+1],[x,y-1],
+        [x+1,y+1],[x-1,y-1],[x+1,y-1],[x-1,y+1],
+      ]) {
+        if (nx < 0 || ny < 0 || nx >= width || ny >= height) { tN++; continue; }
+        if (pixels[idx(nx,ny)+3] === 0) tN++;
+      }
+      if (tN === 0) continue;
 
-    const r = pixels[i], g = pixels[i+1], b = pixels[i+2];
-    const sat = Math.max(r,g,b) - Math.min(r,g,b);
-    const lum = (r+g+b)/3;
+      const r = pixels[i], g = pixels[i+1], b = pixels[i+2];
+      const sat = Math.max(r,g,b) - Math.min(r,g,b);
+      const lum = (r+g+b)/3;
 
-    // Franja muito clara (quase branco): atenua fort
-    if (lum > 200 && sat < 45) {
-      pixels[i+3] = tNeighbors >= 3 ? 0 : Math.min(pixels[i+3], 50);
-    }
-    // Cinza claro leve: atenua suave
-    else if (lum > 140 && sat < 22 && tNeighbors >= 2) {
-      pixels[i+3] = Math.min(pixels[i+3], 80);
+      // Branco / quase-branco → remove completamente
+      if (lum > 175 && sat < 60) {
+        pixels[i+3] = 0;
+      }
+      // Cinza médio ou azul muito claro → atenua fortemente
+      else if (lum > 130 && sat < 80 && tN >= 2) {
+        pixels[i+3] = Math.min(pixels[i+3], 60);
+      }
+      // Borda levemente clara → atenua suave
+      else if (lum > 100 && sat < 55 && tN >= 3) {
+        pixels[i+3] = Math.min(pixels[i+3], 120);
+      }
     }
   }
 }
