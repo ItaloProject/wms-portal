@@ -37,6 +37,19 @@ const NAV_SECTIONS = [
   { id: 'contato', href: '#contato' },
 ];
 
+export function initBackToTop() {
+  const btn = document.querySelector('.back-to-top');
+  if (!btn) return;
+
+  onScroll(() => {
+    btn.classList.toggle('is-visible', window.scrollY > 420);
+  });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 export function initScrollProgress() {
   const bar = document.querySelector('.scroll-progress');
   if (!bar) return;

@@ -1,5 +1,5 @@
 import { initRevealObserver, initSectionObserver } from '../lib/reveal.js';
-import { initScrollProgress, initNavSpy } from '../lib/brand-polish.js';
+import { initScrollProgress, initNavSpy, initBackToTop } from '../lib/brand-polish.js';
 import { initScrollRuntime, onScroll } from '../lib/scroll-runtime.js';
 
 export function initSmoothScroll() {
@@ -93,6 +93,7 @@ export function initScrollAnimations() {
 
   initScrollProgress();
   initNavSpy();
+  initBackToTop();
   initRevealObserver();
   initSectionObserver('.inovacao');
   initSectionObserver('.services-stack', 'in-view');
