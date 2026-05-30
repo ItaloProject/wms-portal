@@ -302,19 +302,27 @@ html.perf-lite .click-ripple { display: none; }
 
 .hero-logo-reveal {
   position: relative;
-  opacity: var(--logo-progress);
-  transform: scale(calc(0.88 + var(--logo-progress) * 0.12));
+  opacity: 0;
+  transform: scale(0.88);
   transform-style: preserve-3d;
   transition: none;
   will-change: opacity, transform;
   --logo-mask: url('/logo-wms.png?v=9');
 }
 
+body.is-ready .hero-logo-reveal {
+  animation: heroLogoReveal 1.6s var(--ease-out-expo) 0.2s both;
+}
+
 .hero-logo-fx {
   position: absolute;
   inset: -14%;
-  opacity: calc(var(--logo-progress) * 0.95);
+  opacity: 0;
   pointer-events: none;
+}
+
+body.is-ready .hero-logo-fx {
+  animation: heroLogoFxIn 2.2s ease-out 0.4s both;
 }
 
 .hero-logo-halo {
@@ -376,9 +384,12 @@ html.perf-lite .click-ripple { display: none; }
   background:
     radial-gradient(circle at 48% 42%, rgba(122, 201, 67, 0.28), transparent 42%),
     radial-gradient(circle at 50% 50%, rgba(0, 85, 170, 0.38), transparent 64%);
-  opacity: calc(var(--logo-progress) * 0.75);
+  opacity: 0;
   pointer-events: none;
-  animation: heroLogoGlow 6s ease-in-out infinite;
+}
+
+body.is-ready .hero-logo-glow {
+  animation: heroLogoGlowIn 2.5s ease-out 0.6s both, heroLogoGlow 6s ease-in-out 3.2s infinite;
 }
 
 .hero-logo-shimmer {
@@ -424,6 +435,18 @@ html.perf-lite .click-ripple { display: none; }
   to { transform: rotate(360deg); }
 }
 
+@keyframes heroLogoReveal {
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes heroLogoFxIn {
+  to { opacity: 0.95; }
+}
+
+@keyframes heroLogoGlowIn {
+  to { opacity: 0.75; }
+}
+
 @keyframes heroLogoGlow {
   0%, 100% { transform: scale(1); }
   50%       { transform: scale(1.1); }
@@ -440,7 +463,6 @@ html.perf-lite .click-ripple { display: none; }
 }
 
 html.perf-lite .hero-logo-halo,
-html.perf-lite .hero-logo-glow,
 html.perf-lite .hero-logo-shimmer,
 html.perf-lite .hero-logo-reveal.is-alive .hero-logo-img {
   animation: none !important;
@@ -449,6 +471,23 @@ html.perf-lite .hero-logo-reveal.is-alive .hero-logo-img {
 html.perf-lite .hero-logo-fx::before,
 html.perf-lite .hero-logo-fx::after {
   animation: none !important;
+}
+
+/* perf-lite: mostra logo imediatamente, sem animacao */
+html.perf-lite body.is-ready .hero-logo-reveal {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+html.perf-lite body.is-ready .hero-logo-fx {
+  animation: none !important;
+  opacity: 0.95 !important;
+}
+
+html.perf-lite body.is-ready .hero-logo-glow {
+  animation: none !important;
+  opacity: 0.75 !important;
 }
 
 html.perf-lite .hero-logo-stage {

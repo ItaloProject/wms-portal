@@ -1,81 +1,33 @@
 import { canUseRichMotion } from './perf.js';
-import { onScroll } from './scroll-runtime.js';
 
 export function initHeroLogo() {
   const stage = document.querySelector('.hero-logo-stage');
   const hero = document.getElementById('hero');
   const reveal = stage?.querySelector('.hero-logo-reveal');
-  const fx = stage?.querySelector('.hero-logo-fx');
-  const glow = stage?.querySelector('.hero-logo-glow');
   if (!stage || !hero) return;
 
+  // Ativa shimmer e float após a animação de reveal CSS completar
+  setTimeout(() => reveal?.classList.add('is-alive'), 1500);
+
+  // Parallax com mouse — apenas em dispositivos high-perf
   const richMotion = canUseRichMotion();
-  const mq = window.matchMedia('(max-width: 768px)');
-  let metrics = {
-    heroTop: 0,
-    scrollSpan: 1,
-    startOffset: 0,
-  };
-  let lastProgress = -1;
+  if (!richMotion) return;
 
-  const measure = () => {
-    const isMobile = mq.matches;
-    const scrollFactor = isMobile ? 0.9 : 0.55;
-    const navOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 80;
-    metrics = {
-      heroTop: hero.offsetTop,
-      scrollSpan: Math.max(hero.offsetHeight * scrollFactor, 1),
-      startOffset: isMobile ? navOffset * 0.8 : navOffset * 0.35,
-    };
-  };
+  let parallaxFrame = 0;
+  let targetX = 0;
+  let targetY = 0;
 
-  const update = () => {
-    const scrolled = Math.max(0, window.scrollY - metrics.heroTop + metrics.startOffset);
-    const progress = Math.min(1, scrolled / metrics.scrollSpan);
-
-    if (Math.abs(progress - lastProgress) < 0.01) return;
-    lastProgress = progress;
-
-    // Updates diretos em vez de CSS variable inheritance — evita recalc em cascade
-    if (reveal) {
-      reveal.style.opacity = progress.toFixed(3);
-      reveal.style.transform = `scale(${(0.88 + progress * 0.12).toFixed(4)})`;
+  window.addEventListener('mousemove', (e) => {
+    targetX = (e.clientX / window.innerWidth - 0.5) * 14;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 10;
+    if (!parallaxFrame) {
+      parallaxFrame = requestAnimationFrame(() => {
+        stage.style.setProperty('--logo-shift-x', `${targetX.toFixed(2)}px`);
+        stage.style.setProperty('--logo-shift-y', `${targetY.toFixed(2)}px`);
+        stage.style.setProperty('--logo-tilt-y', `${(targetX * 0.35).toFixed(2)}deg`);
+        stage.style.setProperty('--logo-tilt-x', `${(-targetY * 0.28).toFixed(2)}deg`);
+        parallaxFrame = 0;
+      });
     }
-    if (fx) fx.style.opacity = (progress * 0.95).toFixed(3);
-    if (glow) glow.style.opacity = (progress * 0.7).toFixed(3);
-    reveal?.classList.toggle('is-alive', progress >= 0.45);
-  };
-
-  measure();
-  onScroll(update);
-  window.addEventListener('resize', () => {
-    measure();
-    update();
   }, { passive: true });
-  window.addEventListener('load', () => {
-    measure();
-    update();
-  }, { once: true });
-
-  if (richMotion) {
-    let parallaxFrame = 0;
-    let targetX = 0;
-    let targetY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-      targetX = (e.clientX / window.innerWidth - 0.5) * 14;
-      targetY = (e.clientY / window.innerHeight - 0.5) * 10;
-      if (!parallaxFrame) {
-        parallaxFrame = requestAnimationFrame(() => {
-          stage.style.setProperty('--logo-shift-x', `${targetX.toFixed(2)}px`);
-          stage.style.setProperty('--logo-shift-y', `${targetY.toFixed(2)}px`);
-          stage.style.setProperty('--logo-tilt-y', `${(targetX * 0.35).toFixed(2)}deg`);
-          stage.style.setProperty('--logo-tilt-x', `${(-targetY * 0.28).toFixed(2)}deg`);
-          parallaxFrame = 0;
-        });
-      }
-    }, { passive: true });
-  }
-
-  update();
 }
